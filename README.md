@@ -1,8 +1,8 @@
-# dam-poc-monorepo
+# dam-poc-monorepo - prueba de concepto
 - Creo estructura de carpetas para los tres proyectos: angular-app, flutter-app, spring-boot-api.
 
 - Spring-boot-api:
-    - Creo proyecto desde inizialiter con dependencias: Spring Web, Spring Data JPA, PostgreSQL Driver, Lombok.
+    - Creo proyecto poc-api desde Spring initializr con dependencias: Spring Web, Spring Data JPA, PostgreSQL Driver, Lombok.
     - Creo controlador: ApiController.java
     - Configuración bbdd: application.properties
     
