@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # servicio Spring Boot API
+  spring-boot-api:
+    build: ./spring-boot-api # ruta al Dockerfile
+    container_name: poc-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: pocdb
+      DB_USER: user
+      DB_PASSWORD: password
+    depends_on:
+      - db
+    networks:
+      - poc-network
+
+  # Servicio Angular
+  angular-frontend:
+    build: ./angular-app
+    container_name: poc-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - spring-boot-api
+    networks:
+      - poc-network
+
+  # Servicio PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: poc-db
+    environment:
+      POSTGRES_DB: pocdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - poc-network
+    restart: unless-stopped
+
+  # Servicio pgAdmin 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: poc-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - poc-network
+    restart: unless-stopped
+
+networks:
+  poc-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:

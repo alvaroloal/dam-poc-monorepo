@@ -1,0 +1,9 @@
+<h2>Home Page</h2>
+<p>Welcome! You are logged in (simulated).</p>
+<div *ngIf="apiMessage">
+    <p>Message from API: <strong>{{ apiMessage }}</strong></p>
+</div>
+<div *ngIf="errorMessage">
+    <p style="color: red;">Error fetching data: {{ errorMessage }}</p>
+</div>
+<button (click)="callApi()">Call API</button>
