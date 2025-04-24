@@ -4,7 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent }, // Ruta protegida (simulada)
-    { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirige a login por defecto
-    { path: '**', redirectTo: '/login' } // Redirige cualquier otra ruta a login
+    { path: 'home', component: HomeComponent },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '**', redirectTo: '/login' }
 ];
