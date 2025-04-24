@@ -1,4 +1,4 @@
-# dam-poc-monorepo - Prueba de concepto
+# dam-poc-monorepo - prueba de concepto
 - Creo estructura de carpetas para los tres proyectos: angular-app, flutter-app, spring-boot-api.
 
 - Spring-boot-api:
