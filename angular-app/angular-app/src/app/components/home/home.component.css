@@ -1,0 +1,54 @@
+.home-container {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.status {
+    border: 1px solid;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.loading {
+    border-color: #ccc;
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.api-success {
+    border-color: green;
+    background-color: #eafaea;
+    color: #006400;
+}
+
+.api-error {
+    border-color: red;
+    background-color: #ffeaea;
+    color: #cc0000;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}

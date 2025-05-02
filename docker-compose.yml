@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
-  # servicio Spring Boot API
+  # servicio api Spring Boot
   spring-boot-api:
-    build: ./spring-boot-api # ruta al Dockerfile
+    build: ./spring-boot-api/poc-api
     container_name: poc-backend
     ports:
       - "8080:8080"
@@ -18,7 +16,7 @@ services:
     networks:
       - poc-network
 
-  # Servicio Angular
+  # servicio Angular
   angular-frontend:
     build: ./angular-app
     container_name: poc-frontend
@@ -29,7 +27,7 @@ services:
     networks:
       - poc-network
 
-  # Servicio PostgreSQL
+  # servicio PostgreSQL
   db:
     image: postgres:15-alpine
     container_name: poc-db
@@ -45,7 +43,7 @@ services:
       - poc-network
     restart: unless-stopped
 
-  # Servicio pgAdmin 
+  # servicio pgAdmin
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: poc-pgadmin

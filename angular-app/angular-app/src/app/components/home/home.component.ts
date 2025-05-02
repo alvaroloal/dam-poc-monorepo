@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent implements OnInit {
   apiMessage: string | null = null;
   errorMessage: string | null = null;
+  isLoading = false;
   private apiService = inject(ApiService);
 
   ngOnInit(): void {
@@ -20,15 +21,18 @@ export class HomeComponent implements OnInit {
 
   callApi(): void {
     this.errorMessage = null;
-    this.apiMessage = 'Cargando...';
+    this.apiMessage = null;
+    this.isLoading = true;
+
     this.apiService.getHelloMessage().subscribe({
       next: (response) => {
-        this.apiMessage = response.data;
+        this.apiMessage = JSON.stringify(response, null, 2);
+        this.isLoading = false;
         console.log('API response received:', response);
       },
       error: (error) => {
-        this.errorMessage = `Fallo al llamar a la API. Status: ${error.status} - ${error.message}`;
-        this.apiMessage = null;
+        this.errorMessage = `Fallo al llamar API (${error.status}): ${error.message || 'Error desconocido'}`;
+        this.isLoading = false;
         console.error('API call failed:', error);
       }
     });

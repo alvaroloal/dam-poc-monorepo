@@ -1,11 +1,14 @@
-<h2>Login</h2>
-<div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" [(ngModel)]="username">
+<div class="login-container">
+    <h2>Iniciar Sesión (PoC)</h2>
+    <p>Introduce cualquier dato para continuar.</p>
+    <div class="form-group">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Escribe tu usuario">
+    </div>
+    <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Escribe tu contraseña">
+    </div>
+    <button (click)="login()">Entrar</button>
+    <p *ngIf="errorMessage" style="color: red; margin-top: 15px;">{{ errorMessage }}</p>
 </div>
-<div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" [(ngModel)]="password">
-</div>
-<button (click)="login()">Login</button>
-<p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>

@@ -1,9 +1,24 @@
-<h2>Home Page</h2>
-<p>Bienvenido! Estás logueado!!</p>
-<div *ngIf="apiMessage">
-    <p>Mensaje de la API: <strong>{{ apiMessage }}</strong></p>
+<div class="home-container">
+    <h2>Página Principal - ¡Bienvenido/a!</h2>
+    <p>Has iniciado sesión (simuladamente) y estás en la página principal.</p>
+    <p>Esta página demuestra la conexión con el backend Spring Boot.</p>
+    <hr>
+
+    <button (click)="callApi()" [disabled]="isLoading">
+        {{ isLoading ? 'Consultando API...' : 'Consultar Mensaje de API (/api/hello)' }}
+    </button>
+
+    <div *ngIf="isLoading" class="status loading">
+        <p>Esperando respuesta del servidor...</p>
+    </div>
+
+    <div *ngIf="apiMessage && !isLoading" class="status api-success">
+        <h3>Respuesta de la API:</h3>
+        <pre>{{ apiMessage }}</pre>
+    </div>
+
+    <div *ngIf="errorMessage && !isLoading" class="status api-error">
+        <h3>Error de API:</h3>
+        <p>{{ errorMessage }}</p>
+    </div>
 </div>
-<div *ngIf="errorMessage">
-    <p style="color: red;">Error fetching data: {{ errorMessage }}</p>
-</div>
-<button (click)="callApi()">Call API</button>
