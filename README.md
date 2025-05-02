@@ -1,4 +1,47 @@
-# dam-poc-monorepo - prueba de concepto
+# Proyecto POC: API REST con Spring Boot, Frontend Angular y PostgreSQL
+
+Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa una arquitectura de servicios utilizando Docker. El sistema se compone de los siguientes servicios:
+
+- **Backend**: API REST desarrollada con Spring Boot.
+- **Frontend**: Aplicación web construida con Angular.
+- **Base de datos**: PostgreSQL.
+- **Gestor de base de datos**: pgAdmin para administración visual.
+
+---
+
+## Servicios y puertos
+
+| Servicio          | Tecnología       | Puerto Host | Descripción                         |
+|------------------|------------------|-------------|-------------------------------------|
+| Backend API      | Spring Boot      | `8080`      | API REST principal                  |
+| Frontend         | Angular (nginx)  | `80`        | Interfaz de usuario web             |
+| Base de datos    | PostgreSQL       | `5432`      | Almacén de datos relacional         |
+| Administración DB| pgAdmin          | `5050`      | Panel de administración de la BBDD |
+
+---
+
+## Variables de entorno por defecto
+
+### Servicio `spring-boot-api`
+
+| Variable        | Valor           |
+|----------------|-----------------|
+| DB_HOST         | `db`            |
+| DB_PORT         | `5432`          |
+| DB_NAME         | `pocdb`         |
+| DB_USER         | `user`          |
+| DB_PASSWORD     | `password`      |
+
+### Servicio `pgadmin`
+
+| Variable                | Valor                  |
+|-------------------------|------------------------|
+| PGADMIN_DEFAULT_EMAIL   | `admin@example.com`    |
+| PGADMIN_DEFAULT_PASSWORD| `admin`                |
+
+---
+
+# dam-poc-monorepo - Prueba de concepto
 - Creo estructura de carpetas para los tres proyectos: angular-app, flutter-app, spring-boot-api.
 
 - Spring-boot-api:
