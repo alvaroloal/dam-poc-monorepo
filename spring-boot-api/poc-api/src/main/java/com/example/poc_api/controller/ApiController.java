@@ -20,7 +20,7 @@ public class ApiController {
         return status;
     }
 
-    @GetMapping("/hello")
+    @GetMapping(value = "/hello", produces = "application/json")
     public Map<String, String> getHello() {
         Map<String, String> response = new HashMap<>();
         response.put("greeting", "¡Hola desde la API Spring Boot!");
