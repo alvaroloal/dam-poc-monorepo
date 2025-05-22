@@ -36,7 +36,7 @@ Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa
 
 | Variable                | Valor                  |
 |-------------------------|------------------------|
-| PGADMIN_DEFAULT_EMAIL   | `admin@example.com`    |
+| PGADMIN_DEFAULT_EMAIL   | `admin@admin.com`    |
 | PGADMIN_DEFAULT_PASSWORD| `admin`                |
 
 ---
