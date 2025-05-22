@@ -37,4 +37,37 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  callApiStatus(): void {
+    this.errorMessage = null;
+    this.apiMessage = null;
+    this.isLoading = true;
+
+    this.apiService.getHelloMessage().subscribe({
+      next: (response) => {
+        this.apiMessage = JSON.stringify(response, null, 2);
+        this.isLoading = false;
+        console.log('API response received:', response);
+      },
+      error: (error) => {
+        this.errorMessage = `Fallo al llamar API (${error.status}): ${error.message || 'Error desconocido'}`;
+        this.isLoading = false;
+        console.error('API call failed:', error);
+      }
+    });
+
+
+    this.apiService.getApiStatus().subscribe({
+      next: (response) => {
+        this.apiMessage = JSON.stringify(response, null, 2);
+        this.isLoading = false;
+        console.log('API response received:', response);
+      },
+      error: (error) => {
+        this.errorMessage = `Fallo al llamar API (${error.status}): ${error.message || 'Error desconocido'}`;
+        this.isLoading = false;
+        console.error('API call failed:', error);
+      }
+    });
+  }
 }

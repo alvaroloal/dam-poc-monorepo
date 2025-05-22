@@ -6,6 +6,10 @@
 
     <button (click)="callApi()" [disabled]="isLoading">
         {{ isLoading ? 'Consultando API...' : 'Consultar mensaje de API (/api/hello)' }}
+    </button><br>
+
+    <button (click)="callApiStatus()" [disabled]="isLoading">
+        {{ isLoading ? 'Consultando API...' : 'Consultar mensaje de API (/api/info)' }}
     </button>
 
     <div *ngIf="isLoading" class="status loading">
