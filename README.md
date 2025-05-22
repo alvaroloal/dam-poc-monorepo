@@ -77,14 +77,46 @@ Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa
     - restart: unless-stopped: Reinicia los contenedores si fallan, a menos que se detengan manualmente.
  
 - Ejecutar:
-    - En la raiz del repositorio: docker-compose up --build -d
- 
-    - http://localhost:5050/login?next=/
-    - http://localhost:5050/browser/
-    - http://localhost:8080/
-    - http://localhost:8080/api/status
-    - http://localhost:8080/api/hello
-    - http://localhost:8080/api/info
-    - http://localhost:4200
-    - http://localhost:4200/login
-    - http://localhost:4200/home
+  - En la raíz del repositorio:
+
+    ```bash
+    docker-compose up --build -d
+    ```
+
+  - Endpoints disponibles:
+
+    ```bash
+    http://localhost:5050/login?next=/
+    ```
+
+    ```bash
+    http://localhost:5050/browser/
+    ```
+
+    ```bash
+    http://localhost:8080/
+    ```
+
+    ```bash
+    http://localhost:8080/api/status
+    ```
+
+    ```bash
+    http://localhost:8080/api/hello
+    ```
+
+    ```bash
+    http://localhost:8080/api/info
+    ```
+
+    ```bash
+    http://localhost:4200
+    ```
+
+    ```bash
+    http://localhost:4200/login
+    ```
+
+    ```bash
+    http://localhost:4200/home
+    ```
