@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   private apiService = inject(ApiService);
 
   ngOnInit(): void {
-    // this.callApi();
+    //this.callApi();
   }
 
   callApi(): void {

@@ -23,7 +23,7 @@ public class ApiController {
     @GetMapping(value = "/hello", produces = "application/json")
     public Map<String, String> getHello() {
         Map<String, String> response = new HashMap<>();
-        response.put("greeting", "¡Hola desde la API Spring Boot!");
+        response.put("greeting", "¡Hola mundo desde la API Spring Boot!");
         response.put("description", "Este es el mensaje devuelto por /api/hello.");
         return response;
     }

@@ -19,11 +19,11 @@ export class LoginComponent {
   login(): void {
 
     if (this.username && this.password) {
-      console.log('Login successful (simulated)');
+      console.log('Login completado (simulado)');
       // sessionStorage.setItem('isLoggedIn', 'true');
       this.router.navigate(['/home']);
     } else {
-      this.errorMessage = 'Please enter username and password.';
+      this.errorMessage = 'Introduce un nombre de usuario y contraseña.';
     }
   }
 }
