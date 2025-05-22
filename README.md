@@ -78,9 +78,13 @@ Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa
  
 - Ejecutar:
     - En la raiz del repositorio: docker-compose up --build -d
-
-
-
-
-
-
+ 
+    - http://localhost:5050/login?next=/
+    - http://localhost:5050/browser/
+    - http://localhost:8080/
+    - http://localhost:8080/api/status
+    - http://localhost:8080/api/hello
+    - http://localhost:8080/api/info
+    - http://localhost:4200
+    - http://localhost:4200/login
+    - http://localhost:4200/home
