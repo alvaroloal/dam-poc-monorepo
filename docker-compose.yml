@@ -16,12 +16,26 @@ services:
     networks:
       - poc-network
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - spring-boot-api
+      - angular-frontend
+    restart: always
+
+    networks:
+      - poc-network
+
   # servicio Angular
   angular-frontend:
     build: ./angular-app
     container_name: poc-frontend
-    ports:
-      - "80:80"
+
     depends_on:
       - spring-boot-api
     networks:
