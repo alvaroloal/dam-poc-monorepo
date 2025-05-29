@@ -4,10 +4,10 @@ WORKDIR /app
 COPY angular-app/package*.json ./
 RUN npm install
 
-COPY . .
+COPY angular-app/ ./
 
 RUN npx ng build --configuration production
 
 FROM nginx:alpine
 
-COPY --from=build angular-app/dist/angular-app /usr/share/nginx/html
+COPY --from=build /app/dist/angular-app /usr/share/nginx/html
