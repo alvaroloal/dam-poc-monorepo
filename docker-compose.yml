@@ -3,8 +3,6 @@ services:
   spring-boot-api:
     build: ./spring-boot-api/poc-api
     container_name: poc-backend
-    ports:
-      - "8080:8080"
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -17,27 +15,18 @@ services:
       - poc-network
 
   nginx:
-    image: nginx:alpine
-    container_name: nginx-proxy
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    container_name: poc-frontend
     ports:
       - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - spring-boot-api
-      - angular-frontend
     restart: always
-
-    networks:
-      - poc-network
-
-  # servicio Angular
-  angular-frontend:
-    build: ./angular-app
-    container_name: poc-frontend
-
+    volumes:
+      - ./angular-app/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - spring-boot-api
+      - pgadmin
     networks:
       - poc-network
 
@@ -51,8 +40,6 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - poc-network
     restart: unless-stopped
@@ -65,8 +52,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_LISTEN_PORT: 80
-    ports:
-      - "5050:80"
     depends_on:
       - db
     volumes:

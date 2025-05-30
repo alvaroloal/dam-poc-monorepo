@@ -1,122 +1,103 @@
 # Proyecto POC: API REST con Spring Boot, Frontend Angular y PostgreSQL
 
-Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa una arquitectura de servicios utilizando Docker. El sistema se compone de los siguientes servicios:
+Este repositorio contiene un proyecto de prueba de concepto (POC) que implementa una arquitectura de servicios Dockerizada compuesta por:
 
 - **Backend**: API REST desarrollada con Spring Boot.
-- **Frontend**: Aplicación web construida con Angular.
+- **Frontend**: Aplicación Angular servida por Nginx.
 - **Base de datos**: PostgreSQL.
-- **Gestor de base de datos**: pgAdmin para administración visual.
+- **Administrador de base de datos**: pgAdmin, accesible vía Nginx en ruta `/pgadmin`.
 
 ---
 
-## Servicios y puertos
+## Arquitectura y puertos
 
-| Servicio          | Tecnología       | Puerto Host | Descripción                         |
-|------------------|------------------|-------------|-------------------------------------|
-| Backend API      | Spring Boot      | `8080`      | API REST principal                  |
-| Frontend         | Angular (nginx)  | `80`        | Interfaz de usuario web             |
-| Base de datos    | PostgreSQL       | `5432`      | Almacén de datos relacional         |
-| Administración DB| pgAdmin          | `5050`      | Panel de administración de la BBDD |
-
----
-
-## Variables de entorno por defecto
-
-### Servicio `spring-boot-api`
-
-| Variable        | Valor           |
-|----------------|-----------------|
-| DB_HOST         | `db`            |
-| DB_PORT         | `5432`          |
-| DB_NAME         | `pocdb`         |
-| DB_USER         | `user`          |
-| DB_PASSWORD     | `password`      |
-
-### Servicio `pgadmin`
-
-| Variable                | Valor                  |
-|-------------------------|------------------------|
-| PGADMIN_DEFAULT_EMAIL   | `admin@admin.com`    |
-| PGADMIN_DEFAULT_PASSWORD| `admin`                |
+| Servicio          | Tecnología       | Puerto Host | Ruta/Descripción                             |
+|------------------|------------------|-------------|----------------------------------------------|
+| Frontend         | Angular + Nginx  | `80`        | `http://localhost/` (sirve la app Angular)   |
+| API Backend      | Spring Boot      | `80`        | `http://localhost/api/...` (proxy Nginx)     |
+| pgAdmin          | pgAdmin4         | `80`        | `http://localhost/pgadmin/` (proxy Nginx)    |
+| Base de datos    | PostgreSQL       | `5432`      | Acceso interno desde los servicios Docker    |
 
 ---
 
-# dam-poc-monorepo - Prueba de concepto
-- Creo estructura de carpetas para los tres proyectos: angular-app, flutter-app, spring-boot-api.
+## Variables de entorno
 
-- Spring-boot-api:
-    - Creo proyecto poc-api desde Spring initializr con dependencias: Spring Web, Spring Data JPA, PostgreSQL Driver, Lombok.
-    - Creo controlador: ApiController.java
-    - Configuración bbdd: application.properties
-    
-- Angular-app:
-    - Creo proyecto standalone.
-    - Creo componentes: login y home.
-    - Configuración de rutas: app.routes.ts
-    - Creo servicio para llamar a la api
-    - Creo login.
-    - Creo página home.
+### Backend (`spring-boot-api`)
 
-- Flutter-app:
-    - Creo proyecto flutter.
+| Variable      | Valor     |
+|---------------|-----------|
+| DB_HOST       | `db`      |
+| DB_PORT       | `5432`    |
+| DB_NAME       | `pocdb`   |
+| DB_USER       | `user`    |
+| DB_PASSWORD   | `password`|
+
+### pgAdmin
+
+| Variable                  | Valor                     |
+|---------------------------|---------------------------|
+| PGADMIN_DEFAULT_EMAIL     | `admin@example.com`       |
+| PGADMIN_DEFAULT_PASSWORD  | `admin`                   |
+| PGADMIN_LISTEN_PORT       | `80`                      |
+
+---
+
+## Estructura del proyecto
+
+```text
+dam-poc-monorepo/
+├── angular-app/            # Proyecto Angular + nginx.conf
+├── spring-boot-api/        # Proyecto Spring Boot
+├── docker-compose.yml      # Orquestación de servicios
+└── README.md               # Este archivo
+```
+
+---
+
+## Detalles técnicos
+
+- **Frontend**:
+  - Angular se construye en la imagen Docker y se sirve con Nginx.
+  - Usa `try_files` en Nginx para manejar rutas del cliente (SPA).
+
+- **Backend**:
+  - Expone endpoints REST bajo `/api/`.
+  - Comunica con PostgreSQL usando credenciales por variables de entorno.
+
+- **Nginx**:
+  - Redirige `/api/` → backend.
+  - Redirige `/pgadmin/` → pgAdmin.
+  - Sirve Angular en `/`.
+
+- **pgAdmin**:
+  - Accesible desde `http://localhost/pgadmin/`.
+  - Login con email y password definidos en `.env` o directamente en `docker-compose`.
+
+---
+
+## Cómo levantar el proyecto
+
+Desde la raíz del proyecto:
+
+```bash
+docker-compose up --build -d
+```
+
+---
+
+## Rutas disponibles
+
+- **Frontend (Angular)**  
+  `http://localhost/`  
+  `http://localhost/login`  
+  `http://localhost/home`
+
+- **Backend (Spring Boot API)**  
+  `http://localhost/api/status`  
+  `http://localhost/api/hello`  
+  `http://localhost/api/info`
+
+- **pgAdmin (gestor de la base de datos)**  
+  `http://localhost/pgadmin/`  
+  Login: `admin@example.com` / `admin`
   
-- Dockerizar apis Spring Boot y Angular:
-    - Creo Dockerfile para el proyecto Spring Boot.
-    - Creo servidor web Nginx para servir los archivos estáticos de Angular construidos: nginx.conf
-    - Creo Dockerfile para Angular.
-
-- Creo Docker Compose en la raiz del repositorio: docker-compose.yml
-    - services: Define cada contenedor (backend, frontend, db, pgadmin).
-    - build: Especifica la ruta al directorio que contiene el Dockerfile para construir la imagen.
-    - container_name: Nombre para el contenedor.
-    - ports: Mapea puertos HOST:CONTENEDOR.
-    - environment: Establece variables de entorno dentro del contenedor. Importante para pasar credenciales de BD a la API y a pgAdmin.
-    - depends_on: Define dependencias de inicio entre servicios.
-    - volumes: Define volúmenes para persistir datos (base de datos, configuración pgAdmin).
-    - networks: Define una red personalizada (poc-network) para que los contenedores puedan comunicarse entre sí usando sus nombres de servicio (e.g., spring-boot-api, db).
-    - restart: unless-stopped: Reinicia los contenedores si fallan, a menos que se detengan manualmente.
- 
-- Ejecutar:
-  - En la raíz del repositorio:
-
-    ```bash
-    docker-compose up --build -d
-    ```
-
-  - Endpoints disponibles:
-
-    ```bash
-    http://localhost:5050/login?next=/
-    ```
-
-    ```bash
-    http://localhost:5050/browser/
-    ```
-
-    ```bash
-    http://localhost:8080/
-    ```
-
-    ```bash
-    http://localhost:8080/api/status
-    ```
-
-    ```bash
-    http://localhost:8080/api/hello
-    ```
-
-    ```bash
-    http://localhost:8080/api/info
-    ```
-
-    ```bash
-    http://localhost:4200
-    ```
-
-    ```bash
-    http://localhost:4200/login
-    ```
-
-    ```bash
-    http://localhost:4200/home
-    ```
